@@ -1,0 +1,158 @@
+history.....
+v1.000 by AndiT..... Verbesserungsvorschläge willkommen!!! 
+...............................................................
+
+
+# 1
+[x[-1] for x in ["Hallo","Welt","!"]]
+list(map(lambda x:x[::-1],["Hallo","Welt","!"]))
+[[[0]]][0]
+'hallo\n'[:-1]
+list(map(list,["abc","def"]))[1][1]
+from functools import reduce; reduce(lambda x,y:x+'| '+y,"Hallo Welt da bin ich heute".split())
+list(filter(lambda x:len(x)>3,"Hallo Welt da bin ich heute".split()))
+str(1024)[1:]
+
+# 2
+np.array([x+1 for x in range(100) if (x+1)%2==1])
+np.array([x+1 for x in range(100) if ((x+1)^2-1)%8==0])[1:]
+(1:100)[((1:100)**2-1)%%8==0]
+sum([1 for x in (np.random.randint(1, 7, size=(10000, 4))) if sum(x)==14])/10000.
+
+# 3
+c(3,5)+c(10,11)
+c(1,5) %in% c(1,2,0,4,1)
+c(1,2,3,11,12) *c(2,3)
+(1:10)[1:5*2]
+(1:10*2)[1:5*2]
+1:10/1:10
+table(strsplit("HalliHallo",""))
+matrix(1:8*3,ncol=2)
+rep(1:4,2)
+table(c(1,2,3,1,2,2))*3
+
+# 4
+[len(x) for x in open("Bibel.txt").readlines()]
+[len(zeile.split()[0]) if zeile else "" for zeile in open("Bibel.txt").read().splitlines()]
+[zeile.split()[0][0] if zeile else "" for zeile in open("Bibel.txt").read().splitlines()]
+[zeile if zeile else "" for zeile in open("Bibel.txt").read().splitlines() if zeile.startswith("A")]
+[zeile if zeile else "" for zeile in open("Bibel.txt").read().splitlines() if " " not in zeile] # also s.find(==-1)
+sum([1 for wort in open("Bibel.txt").read().split() if len(wort)>10])
+sum([len(wort) for wort in open("Bibel.txt").read().split()])/len(open("Bibel.txt").read().split())
+[zeile if zeile else "" for zeile in open("Bibel.txt").read().splitlines() if sum([1 for wort in zeile if wort.startswith("A")])>1]
+# SSC Edit: 18.10.2018, im Prinzip das selbe. 
+list(filter(list, [ [zeile] if len([wort for wort in zeile.split() if wort.startswith("A")])>2 else '' for zeile in b.splitlines() ]))
+
+# 5
+from os import walk
+sum([1 for d,ds,fs in walk(".") for f in fs if f.endswith('.py')])
+max([(len(open(f).read().splitlines()),f) for d,ds,fs in walk(".") for f in fs if f.endswith('.txt')])[1]
+
+# 6 Python - mtcars.csv gespeichert/aus Netz geladen
+#from rpy2.robjects import r, pandas2ri  ------    # ohne Namen importiert, nur values !
+#pandas2ri.activate()
+#r.data("mtcars")
+#df=r["mtcars"]
+import pandas as pd
+df=pd.read_csv("mtcars.csv")
+df=df.set_index("model")
+df.head()
+------------------------------------------------
+df[["hp","cyl"]].iloc[0:2,:]  #.values --- df/array
+df[df["cyl"]>=6]
+df[(df["gear"]>=4)&(df["mpg"]>=22)]
+df.mean().idxmax()
+df["cyl"].nunique()
+df[["gear","hp"]].groupby("gear").mean() # die Column Namen kriegt man nicht weg...
+sum(df["gear"]==4)>sum(df["gear"]==3)
+sum(df["hp"]>(0.986*150))/df.shape[0]    #1PS = 0.986hp
+------------------------------------------------
+from matplotlib import pyplot as plt
+%matplotlib inline
+df1=df[["cyl","hp"]].groupby("cyl").count().reset_index()
+plt.bar(df1.cyl,df1.hp)
+----------------------------------------------------------
+----------------------------------------------------------
+#6 - R
+class(mtcars[1:2,c("hp","cyl")])
+mtcars[1:2,c("hp","cyl")]
+mtcars[mtcars$cyl>=6,]
+rownames(mtcars[mtcars$cyl>=6,])                # SSC Edit 18.10.2018 6.b Namen des Indexes
+mtcars[(mtcars$mpg>=22)&(mtcars$gear>=4),] 
+mtcars[mtcars$gear>=4 & mtcars$mpg>=22,]        # SSC Edit 18.10.2018 6.c ohne Klammern
+names(sapply(mtcars, mean, na.rm = T))[which.max(sapply(mtcars, mean, na.rm = T))]
+tail(sort(apply(mtcars, 2, mean)),n=1)          # SSC Edit 18.10.2018 6.d Spalte mit den groesten Durchschnittswert.
+length(unique(mtcars$cyl))
+table(mtcars$cyl)                               # SSC Edit 18.10.2018 6.e wie viele unterschiedliche Werte es in der Spalte cyl
+aggregate(hp ~ gear, mtcars, mean) #or with(mtcars,(tapply(hp,gear,mean)),na.rm=T)
+tapply(mtcars$hp,mtcars$cyl,mean)               # SSC Edit 18.10.2018 6.f es kommt zwar ein Fehler, dieser kommt aber nur in Jypiter-Notebooks
+class(as.matrix(mtcars*10)) # Umwandlung + punktweise Multiplikation
+nrow(mtcars[mtcars$gear==4,])>nrow(mtcars[mtcars$gear==3,])
+nrow(mtcars[mtcars$hp>(150*0.986),])/nrow(mtcars)
+df1 <- (aggregate(hp ~ cyl, mtcars, length))
+barplot(df1$hp,df1$cyl,width=10)
+
+# 7 - einlesen, umbenennen
+import pandas as pd
+df=pd.read_csv("Neu_Bevrlkerung_nach_MHG_Alter_2011_V1_28Mai2013.csv",header=0,sep=";",encoding="latin-1",names=["Satzart","AGS","NAME","EWZ","EW_M","EW_W","EW_D","EW_A","ALTER_1","ALTER_2","ALTER_3","ALTER_4","ALTER_5"])
+df.head()
+# cleansing
+df=df.replace("/",0)
+df=df.dropna()
+df[["Satzart","AGS","EW_W","EW_D","EW_A","ALTER_1","ALTER_2","ALTER_3","ALTER_4","ALTER_5"]]=df[["Satzart","AGS","EW_W","EW_D","EW_A","ALTER_1","ALTER_2","ALTER_3","ALTER_4","ALTER_5"]].astype(int)
+# a
+df1=df[df["Satzart"].astype(int)==40]
+df1["Anteil"]=df1["EW_A"]/(df1["EW_A"]+df1["EW_D"])
+df1=df1.sort_values(by="Anteil",ascending=False)
+df1["NAME"].iloc[0]
+# b
+df1=df1.sort_values(by="Anteil",ascending=False)
+df1[["Anteil","NAME","AGS"]].groupby("NAME").max()
+# c
+df1["over50"]=df1["ALTER_4"]+df1["ALTER_5"]
+df1[np.isnan(df1["ALTER_4"])]=0
+df1[np.isnan(df1["ALTER_5"])]=0
+df1[["over50","NAME"]].groupby("NAME").var()
+-----------------------------------------------------------------------------R
+# 7 einlesen,umbenennen
+df <- read.csv2("Neu_Bevrlkerung_nach_MHG_Alter_2011_V1_28Mai2013.csv")
+colnames(df) <- c("Satzart","AGS","NAME","EWZ","EW_M","EW_W","EW_D","EW_A","ALTER_1","ALTER_2","ALTER_3","ALTER_4","ALTER_5")
+df <- df [-1,] # na.omit(df)
+tail(df)# data cleansing
+df$Satzart <- as.numeric(as.character(df$Satzart))
+df$AGS <- as.numeric(as.character(df$AGS))
+df$EW_W <- as.numeric(as.character(df$EW_W))
+df$EW_D <- as.numeric(as.character(df$EW_D))
+df$EW_A <- as.numeric(as.character(df$EW_A))
+df$ALTER_1 <- as.numeric(as.character(df$ALTER_1))
+df$ALTER_2 <- as.numeric(as.character(df$ALTER_2))
+df$ALTER_3 <- as.numeric(as.character(df$ALTER_3))
+df$ALTER_4 <- as.numeric(as.character(df$ALTER_4))
+df$ALTER_5 <- as.numeric(as.character(df$ALTER_5))
+df[df=="/"] <- "0"
+df[is.na(df)] <- "0"
+tail(df)
+# a
+df1 <- df[df$Satzart==40,]
+df1$Anteil <- df1$EW_A/(df1$EW_A+df1$EW_D)
+df1 <- df1[order(df1$Anteil,decreasing = TRUE),]
+df1[1,"NAME"]
+#b
+df1 <- df1[order(df1$Anteil,decreasing = TRUE),]
+df2 <- df1[,c("NAME","Anteil","AGS")]
+aggregate(df2[,2], list(df2$NAME), max)
+#c
+df1["over50"] <- df1["ALTER_4"]+df1["ALTER_5"]
+aggregate(df1[, 15], list(df1$NAME), var)
+
+
+
+# 8 
+vec <- c(2,4,7,3)
+niter <- c(0,0,0,0)
+for (i in 1:4) {
+niter <- niter + ifelse (vec==1,0,1)    # all pos where vec not one +1
+vec <- ifelse(vec==1,vec,ifelse(vec%%2==0,vec/2,3*vec+1))   # if pos not 1 and even /2 else ...
+}
+niter
+vec

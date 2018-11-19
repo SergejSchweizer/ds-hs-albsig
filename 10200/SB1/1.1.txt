@@ -1,0 +1,7 @@
+
+#1.1a
+wurfe <- factor(c("K","Z"))
+muenz10 <- function() {sample(wurfe,10,replace=T)}
+
+
+#1.1b

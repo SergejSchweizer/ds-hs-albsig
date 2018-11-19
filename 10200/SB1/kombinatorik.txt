@@ -1,0 +1,22 @@
+﻿
+
+# Variation(mit Reihenfolge) und Zurucklegen (n^^k)
+bowl c(”red”, ”blue”)
+sample(bowl, 10, replace=T)	# sample
+red' 'blu' 'red' 'red' 'blu' 'blu' 'red' 'blu' 'blu' 'red'
+
+
+# Kombination(ohne Reihenfolge) und ohne Zurucklegen (n/k)
+choose(5,2)			# anzahl
+combn(0:4,2)			# sample
+0	0	0	0	1	1	1	2	2	3
+1	2	3	4	2	3	4	3	4	4
+
+
+#Variation(mit Reihenfolge) und ohne Zurucklegen
+sample(10,3,replace=F)		# sample
+10 6 9
+
+
+Kombination(ohne Reihenfolge) und mit zurücklegen
+choose

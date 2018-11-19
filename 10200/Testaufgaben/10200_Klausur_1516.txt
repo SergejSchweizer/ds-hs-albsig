@@ -1,0 +1,75 @@
+Klausur 15/16 by AT
+Verbesserungen willkommen
+-----------------------------
+
+#1
+# (a) {1,2,3,4,5,6}^2 -> {2,4,6,8,10,12,25,-4}
+E <- ((1/6)**2) * (2+4+6+8+10+12) + 2/36 * 25 + (1-(6/36+2/36))*(-4)
+V <- 1/36 * ((2-E)**2+(4-E)**2+(6-E)**2+(8-E)**2+(10-E)**2+(12-E)**2)+
+    2/36 * (25-E)**2 + (1-(6/36+2/36))*(-4-E)**2
+P_gr_0 <- 6/36+2/36
+P_gr_20 <- 2/36
+# (e)
+X <- function() {
+    w1 <- sample(1:6,1)
+    w2 <- sample(1:6,1)
+    if (w1==w2) return (w1+w2)
+    else if ((w1+w2)==3) return (25)
+    else return (-4) }
+#y <- replicate(100,X())
+x <- replicate(100000,X())
+E1 <- sum(x)/100000
+V1 <- sum((x-E1)**2)/100000
+E
+V
+E1
+V1
+#oder mean(replicate(100000,X())) und var(replicate(100000,X()))
+
+#2
+choose((10+5-1),5)
+choose(10,4)*3**6 # wie beim Bankbeispiel
+# (c) ? choose(10,4)*choose(6,2) # und Rest fix vorgegeben ?
+#       bzw. als Permutation mit WH #Permutation mit WH: factorial(10)/factorial(4)/factorial(2)/factorial(4)
+# (d) ? choose(6,4)*factorial(4)/4**6 # ohne zurücklegen mit Reihenfolge 4 aus 6
+
+#3
+# diskret - stetig
+# Eine stetige Verteilung beschreibt die Wahrscheinlichkeiten für die möglichen Werte einer stetigen Zufallsvariablen. Als stetige Zufallsvariable wird eine Zufallsvariable mit einer Menge möglicher Werte (der Spannweite) bezeichnet, die unendlich und nicht zählbar ist.
+# Die Wahrscheinlichkeit einer stetigen Zufallsvariablen (x) ist als die Fläche unter der Kurve ihrer PDF definiert. Daher können nur Wertebereiche eine Wahrscheinlichkeit ungleich null aufweisen. Die Wahrscheinlichkeit, mit der eine stetige Zufallsvariable gleich einem bestimmten Wert ist, liegt stets bei null.
+#Eine diskrete Verteilung beschreibt die Wahrscheinlichkeit, mit der jeder einzelne Wert einer diskreten Zufallsvariablen auftritt. Eine diskrete Zufallsvariable ist eine Zufallsvariable mit zählbaren Werten, z. B. eine Liste nicht negativer ganzer Zahlen.
+#Mit einer diskreten Wahrscheinlichkeitsverteilung kann jedem möglichen Wert der diskreten Zufallsvariablen eine Wahrscheinlichkeit ungleich null zugeordnet werden. Daher wird eine diskrete Wahrscheinlichkeitsverteilung oft in tabellarischer Form dargestellt.
+# stetig / diskret
+#gesamte Populationen / eigene Beobachtungen, Stichproben
+# Poisson
+# Grenzfall Binomialverteilung, Modellierung von Warteschlangen mit seltenen Ereignissen und konstanten Raten
+# Situation: Ausfallsraten, Wahrscheinlichkeit, dass in Zeitraum x Ereignisse auftreten
+
+#4
+#4
+sum(rnorm(100,10,3)>13)
+#b
+dnorm(10,10,3) # P(X=10) = 0 , Dichtefunktion
+pnorm(10,10,3)
+1-pnorm(10,10,3)
+#cd
+1-pnorm(13,10,3)
+pnorm(11,10,3)-pnorm(9,10,3)
+#ef
+qnorm(0.5,10,3)
+sum(rnorm(10000,10,3)<=10)/10000
+qnorm(0.01,10,3) # Suche nach dem Zufallsvariablenwert x mit P(X<x)=0.01
+# x deutlich weiter links, da Wahrscheinlichkeitsdichte flacher breiter
+
+#5
+#5
+x <- c(10,3,11,22,1,2,102)
+IQR(x)
+median(x)
+#quantile(x,0.25), quantile(x,0.75)
+
+#6
+
+
+
+

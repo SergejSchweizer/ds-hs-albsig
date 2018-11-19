@@ -1,0 +1,134 @@
+Probeklausur 15/16 .... liegt im Ordner als pdf ...
+created by AT
+comments...improvements... welcome....
+....................................................
+
+#1
+[x+y for x in 'abc' for y in 'de']
+[0]*2+[1]*2
+range(10)[2:-2]     #careful, answer as range
+range(5)[::-1]
+'hallon'[:-1]
+[len(x) for x in ['hallo',' ','welt',' ','!']]     #typo in question
+[[1,2],[2],[]][0][0]
+
+#2
+1:10
+1:3*2:4
+#rep(1:4,1:2)      #error
+rep(1:4,2)
+seq(1,4,.5)
+sqrt(c(1,9,25,100))
+c(8,3,2)*1:3
+table(c(1,3,3,4,1,1,2,1))
+c(1,2,3,5,7,10)*c(1,3)
+matrix(1:4,2)
+
+#3
+sum([x for x in range(101)])
+[x for x in range(1001) if x%6==0]
+[x+y+z for x in 'abcd' for y in 'abcd' for z in 'abcd']
+
+#4
+[len(zeile) for zeile in open('Bibel.txt').readlines() if zeile]
+[zeile[:3] for zeile in open('Bibel.txt').readlines() if (zeile and len(zeile)>3)]
+[(len(zeile),zeile[:10]) for zeile in open('Bibel.txt').readlines() if (zeile and len(zeile)>10)]
+sum([zeile.count('x') for zeile in open('Bibel.txt').readlines() if zeile])
+[zeile for zeile in open('Bibel.txt').readlines() if (zeile and 'Gen' in zeile)]
+[" "+zeile for zeile in open('Bibel.txt').readlines() if zeile]
+max([(len(zeile.split()),zeile.split()) for zeile in open('Bibel.txt').readlines() if zeile]) #[1]
+
+#5 angepasst..... danke Andrej
+list(map(lambda i,x:(i,x),len(open('Bibel.txt').readlines()),open('Bibel.txt').readlines())
+----------------------------------------------------------
+liste=['Andi','Toni','Fredi','Suzi','Maxi','Bella']
+list(filter(lambda k: 'e' in k, liste))
+from functools import reduce 
+reduce(lambda x,y:x+y,liste)
+
+#6
+def collatz(n):
+    liste=[]
+    a=n
+    while a!=1:
+        liste.append(a)
+        if a%2==1:
+            a=3*a+1
+        else:
+            a=a/2
+    liste.append(a)
+    return liste
+def longCollatz(n):
+    liste2=[]
+    for i in range(1,n+1):
+        if len(collatz(i))>30:
+            liste2.append(i)
+    return liste2
+#collatz(27)
+#longCollatz(100)
+
+#7
+import statsmodels.api as sm
+iris_df=sm.datasets.get_rdataset('iris').data
+iris_df=iris_df.loc[:,:'Petal.Width'] #Klasse abschneiden
+----------------------------------------------------------
+iris_df[:5]
+len(iris_df.columns)
+len(iris_df)
+iris_df.loc[:,'Petal.Length':]
+iris_df.iloc[-2:,:2]
+iris_df.loc[iris_df['Sepal.Length']>7,:]
+iris_df.loc[abs(iris_df['Sepal.Length']-iris_df['Petal.Length'])<1,:]
+iris_df["mw"]=(iris_df['Sepal.Length']+iris_df['Petal.Length'])/2.
+
+#8
+#library(datasets)
+#data(iris)
+iris_df=iris[,-5]
+#head(iris_df)
+--------------------------------------
+iris_df[1:5,]
+iris_df[-c(10,20),]
+nrow(iris_df)
+iris_df[iris_df['Sepal.Length']>7.,]
+
+#9 # Python ignoriert Duplikat in index
+dfRueck=pd.DataFrame({"Fakultät":["ING","ING","BSM","LS","INF","INF","LS","ING","ING","LS","ING","INF",'ING',"ING","INF"],
+                     "RücktrittGeplant":[126,51,137,75,61,27,12,87,79,172,8,38,70,183,56],
+                     "RücktrittKrank":[16,89,176,160,177,198,28,180,77,97,93,91,36,104,130]},
+                     index=["BKT","TEX","BWL","FM","ITS","KST","LEH","MAB","MPE","PHT","TEX","TI","TT","WIW","WIN"])
+dfRueck["RücktrittGesamt"]=dfRueck["RücktrittGeplant"]+dfRueck["RücktrittKrank"]
+dfRueck.index.name="Studiengang"
+dfRueck
+#dfRueck[["RücktrittGeplant","RücktrittKrank","RücktrittGesamt"]].agg(sum)
+-------------------------------------------------------------------------------------
+dfRueck2=dfRueck.groupby("Fakultät").sum()
+dfRueck["Proz_RücktrittGeplant"]=dfRueck["RücktrittGeplant"]/dfRueck["RücktrittGesamt"]
+dfRueck["Proz_RücktrittKrank"]=dfRueck["RücktrittKrank"]/dfRueck["RücktrittGesamt"]
+dfRueck["RücktrittKrank"].plot(kind="bar")
+dfRueck[["Proz_RücktrittKrank","Proz_RücktrittGeplant"]].plot(kind="bar") #,stacked=True)
+
+# Versuch in R
+#9
+dfRueck <- data.frame("Fakultät"=c("ING","ING","BSM","LS","INF","INF","LS","ING","ING","LS","ING","INF",'ING',"ING","INF"),
+                     "RücktrittGeplant"=c(126,51,137,75,61,27,12,87,79,172,8,38,70,183,56),
+                     "RücktrittKrank"=c(16,89,176,160,177,198,28,180,77,97,93,91,36,104,130))
+rownames(dfRueck) <- c("BKT","TEX","BWL","FM","ITS","KST","LEH","MAB","MPE","PHT","TEX1","TI","TT","WIW","WIN")
+dfRueck["Gesamt"] <- dfRueck["RücktrittGeplant"]+dfRueck["RücktrittKrank"]
+
+dfRueck[,"Fakultät"] <- as.factor(dfRueck[,"Fakultät"])
+str(dfRueck)
+
+df1 <- aggregate(dfRueck[c("RücktrittGeplant","RücktrittKrank")], by=dfRueck["Fakultät"], sum)
+aggregate(dfRueck[,2:3],by=list(dfRueck[,1]), sum)
+
+dfRueck["Proz_RücktrittGeplant"] <- dfRueck["RücktrittGeplant"]/dfRueck["Gesamt"]
+dfRueck["Proz_RücktrittKrank"] <- dfRueck["RücktrittKrank"]/dfRueck["Gesamt"]
+dfRueck
+
+ggplot(data=dfRueck, mapping=aes(x=rownames(dfRueck),y=dfRueck[,3],fill=dfRueck[,4]))+
+    ggtitle('Plot')+    
+    geom_bar(stat="identity")+
+    theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.3))
+
+.........................................................
