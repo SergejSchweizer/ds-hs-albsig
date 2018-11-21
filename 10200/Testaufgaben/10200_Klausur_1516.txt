@@ -94,6 +94,14 @@ plot(0:12,dbinom(0:12,3,.5),type="l",col="green")
 par(new=T)
 plot(s,dnorm(s,mean(discoveries),sd(discoveries)),type="l",col="blue")
 
+#???? schaut ja schlimm aus die l Funktion...
+x <- 0:12
+a <- dpois(discoveries[1],lambda=x)
+for (i in 2:length(discoveries)) {
+a <- a*dpois(discoveries[i],lambda=x)
+    }
+a
+plot(x,a,type="l")
 
 
 
