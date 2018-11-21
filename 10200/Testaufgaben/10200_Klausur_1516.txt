@@ -108,7 +108,18 @@ min(gooda)
 max(gooda)
 
 #8
-
+head(mtcars)
+model <- lm (mpg~hp,data=mtcars)
+# Ein Response Y wird linear durch ein Modell Y = X*B + E mit dem Predictor X, 
+# dem Signal X*B mit der und dem statistischen Fehler E angenähert
+# Im 2D-Fall wird y linear mit der Geraden mit Steigung beta_1 und dem intercept beta:0 angenähert y=beta_1*x+beta_0.
+plot(mtcars$hp,mtcars$mpg)
+par(new=T)
+abline(coef(model))
+abline(model)
+#Betrachtung der Residuen y_dach (angenähert) - y (laut Datensatz, "echt") ohne erkennbares Muster
+plot(fitted(model),resid(model))
+summary.lm(model)
 
 
 
