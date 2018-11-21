@@ -69,6 +69,18 @@ median(x)
 #quantile(x,0.25), quantile(x,0.75)
 
 #6
+df <- discoveries
+min(time(df))
+max(time(df))
+l <- length(df)
+e <- (replicate(1000,sapply(sample(df,l,replace=T),mean)))
+q <- quantile(e,c(0.05,0.95))
+hist(e,breaks=12,prob=T)
+lines(density(e,bw=1),lwd=2,lty=1)
+abline(v=q,col="red")
+text(q+.5,c(0.25,0.25),labels=c("1.Q.","3.Q."),col="red")
+
+#7
 
 
 
