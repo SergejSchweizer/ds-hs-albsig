@@ -82,6 +82,18 @@ text(q+.5,c(0.25,0.25),labels=c("1.Q.","3.Q."),col="red")
 # In 90% der Fälle liegt die berechnete Stichprobenkennzahl im Bereich, Beinhaltet mit einer Wahrscheinlichkeit von 90 % die Stichprobenkennzahl.
 
 #7
+#c
+s <- seq(0,12,length=100)
+hist(e,breaks=12,prob=T)
+lines(density(e,bw=1),lwd=2,lty=1)
+par(new=T)
+plot(0:12,dpois(0:12,mean(discoveries)),type="l",col="red")
+par(new=T)
+# ??? was ist hier n und p ?
+plot(0:12,dbinom(0:12,3,.5),type="l",col="green")
+par(new=T)
+plot(s,dnorm(s,mean(discoveries),sd(discoveries)),type="l",col="blue")
+
 
 
 
