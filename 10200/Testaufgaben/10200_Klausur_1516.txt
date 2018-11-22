@@ -132,13 +132,21 @@ gummi1 <- function(k=5,n=10){
 mean(replicate(10000,any(gummi1(5,10)==3)))
 mean(replicate(10000,any(length(gummi1(5,10))<5)))
 
-#2abc
+#2
 wurf10 <- function() sample(1:6,10,replace=T)
-# (10 über 3) * (7 über 2) * 4^5
 wuerfe <- replicate(100000,wurf10())
 A <- apply(wuerfe,2,function(x)sum(x==1)==3)
 B <- apply(wuerfe,2,function(x)sum(x==2)==2)
-sum(A&B)/100000
+sum(A&B)/10000
+           
+wurf10_gezinkt <- function() {
+    s <- sample(1:7,10,replace=T)
+    s[s==7]<-1
+    return(s)}
+wuerfe <- replicate(100000,wurf10_gezinkt())
+A <- apply(wuerfe,2,function(x)sum(x==1)==3)
+B <- apply(wuerfe,2,function(x)sum(x==2)==2)
+sum(A&B)/10000
 
 
 
