@@ -121,5 +121,16 @@ abline(model)
 plot(fitted(model),resid(model))
 summary.lm(model)
 
+---------------------------------------
+Klausurvorbereitung 17/18
+
+#1
+choose(10+5-1,5)
+gummi1 <- function(k=5,n=10){
+    wert <- table(sample(1:k,n,replace=T))
+    return (wert)}
+mean(replicate(10000,any(gummi1(5,10)==3)))
+mean(replicate(10000,any(length(gummi1(5,10))<5)))
+
 
 
