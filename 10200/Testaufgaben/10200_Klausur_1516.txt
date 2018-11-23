@@ -200,5 +200,10 @@ mean(replicate(10000,any(Auswahl()=="B")))
 # bei gleicher P(X=x), dynamisch,...
 
 #7
-
+hist(rpois(100,10))
+plot(1:20,dpois(1:20,10),type="h")
+var1 <- rnorm(10000,5,10)
+mean(var1>10 & var1<20)
+var2 <- rbinom(10000,10,.1)
+mean(var2>=3 & var2<=6)
 
