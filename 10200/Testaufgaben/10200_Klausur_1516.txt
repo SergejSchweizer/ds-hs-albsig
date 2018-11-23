@@ -173,7 +173,32 @@ sd(replicate(100000,wurf()))
 # SD=Wurzel(Summe(X-mu)^2/n-1) da Stichprobe
 
 #4
+#R-Code
+Auswahl=function() sample(c(rep("A",90),rep("B",10)),10,replace=F)
+1-mean(replicate(10000,any(Auswahl()=="B")))
+mean(replicate(10000,any(Auswahl()=="B")))
+#rechnen
+90*89*88*87*86*85*84*83*82*81/(100*99*98*97*96*95*94*93*92*91)
+1-90*89*88*87*86*85*84*83*82*81/(100*99*98*97*96*95*94*93*92*91)
 
+#5
+# (2/4)^10
+# (10 über 2)*3^8 / 4^10
+# (10 über 2)*3^8 / 4^10 *2
+# (10 über 2)*/8 über 2) 2^6 / 4^10
+# 1 – (3/4) ^ 2
+# 4! / 4^4
+# (3/4)^10
 
+#6
+#6(e35(s25(f15(b10(c8(d7)))))
+#e0,s10,f110,b1110,c11110,d11111
+#durchschnittlich: 2.45
+0.35*1+0.25*2+0.15*3+0.1*4+0.08*5+0.07*5
+
+# R-Code? s.o?
+# bei gleicher P(X=x), dynamisch,...
+
+#7
 
 
