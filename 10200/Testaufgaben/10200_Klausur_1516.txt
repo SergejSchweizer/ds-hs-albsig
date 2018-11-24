@@ -215,4 +215,42 @@ plot(1:10,dexp(1:10,1/3),type="h")
 1-pexp(4,1/3)+pexp(2,1/3)
 qexp(0.99,1/3)
 
+#9
+df <- mdeaths
+mdeaths
+#v1 <- as.vector(matrix(df,  ncol=1));length(v1)
+#l
+hist(df,prob=T,breaks=10)
+lines(density(df))
+s<-seq(800,3000,length=100)
+s1<-800:3000
+lines(s,dnorm(s,mean(df),sd(df)),lwd=3,col="green")
+lines(s,dexp(s,1/mean(df)),lwd=3,col="red")
+lines(s1,dpois(s1,mean(df)),lwd=3,col="blue")
+
+#'???????????????????' Parameter?
+lines(s,dbinom(s,6*12*mean(df),0.5),lwd=3,col="brown")
+
+#c
+h <-hist(df,prob=T,breaks=20)
+breaks <-(h$breaks)
+err <-numeric()
+err[1] <- sum((dnorm(breaks,mean(df),sd(df))-h$density)**2)
+err[2] <- sum((dexp(breaks,1/mean(df))-h$density)**2)
+err[3] <- sum((dpois(breaks,mean(df))-h$density)**2)
+err[4] <- sum((dbinom(breaks,6*12*mean(df),0.5)-h$density)**2) #?
+names(err)<-c("N","E","P","B")
+err[order(abs(err),decreasing=T)]
+
+err[1] <- median(abs(dnorm(breaks,mean(df),sd(df))-h$density))
+err[2] <- median(abs(dexp(breaks,1/mean(df))-h$density))
+err[3] <- median(abs(dpois(breaks,mean(df))-h$density))
+err[4] <- median(abs(dbinom(breaks,6*12*mean(df),0.5)-h$density)) #?
+names(err)<-c("N","E","P","B")
+sort(err)
+
+#10
+
+
+
 
