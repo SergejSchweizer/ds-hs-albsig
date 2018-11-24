@@ -283,6 +283,24 @@ a <- function(x) {
 max(a(s))
 plot(s,a(s),type="l")
 
+#11
+df <- data.frame(UCBAdmissions)
+df1 <- df[df$Dept=="A",]
+
+FM <- data.frame(F=c(89,19+89), M=c(512,313+512), row.names=c("adm","total")) 
+diffrate1=(FM[1,]/FM[2,])["F"]-(FM[1,]/FM[2,])["M"]
+diffrate1
+
+FM
+FM_split <- c(replicate(108,"F"),replicate(825,"M"))
+all <- c(replicate(89+512,TRUE),replicate((108+825-89-512),FALSE))
+s <- replicate(1000,(sapply(split(sample(all),FM_split),sum)))
+s <- t(s)
+mean(s[,1])
+mean(s[,2])
+quantile(s[,1],c(0.05,0.95))
+#p-Test Werte "mindestens so extrem"
+
 
 
 
