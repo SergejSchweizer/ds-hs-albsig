@@ -250,6 +250,38 @@ names(err)<-c("N","E","P","B")
 sort(err)
 
 #10
+#10
+df <-mdeaths
+str(df)
+mean(df)
+median(df)
+summary(df)
+sd(df)
+var(df)
+
+#hist(df)
+df_m <- t(matrix(df,nrow=12)) #sonst Befüllung columns zuerst
+#plot(apply(df_m,2,mean),type="h")
+
+paste("  ----------- ")
+mw <- (replicate(1000,mean(sample(mdeaths,length(mdeaths),replace=T))))
+mean(mw)
+quantile(mw,c(0.025,0.975))
+
+mean(replicate(1000,var(sample(mdeaths,length(mdeaths),replace=T))))
+mean(replicate(1000,median(sample(mdeaths,length(mdeaths),replace=T))))
+mean(replicate(1000,mad(sample(mdeaths,length(mdeaths),replace=T))))
+
+
+s <- seq(1490,1510,length=100)          # wird zu klein durch Ausmultiplizieren!!!
+a <- function(x) {
+    wert <- dpois(df[1],lambda=x)
+    for (i in 2:length(df)) {
+        wert <- wert * dpois(df[i],lambda=x)
+                                    } 
+    return(wert) }
+max(a(s))
+plot(s,a(s),type="l")
 
 
 
