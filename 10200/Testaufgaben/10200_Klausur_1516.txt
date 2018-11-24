@@ -207,3 +207,12 @@ mean(var1>10 & var1<20)
 var2 <- rbinom(10000,10,.1)
 mean(var2>=3 & var2<=6)
 
+#8
+plot(rexp(100,1/3),type="h")
+plot(1:10,dpois(1:10,1/3),type="h")
+ppois(1,1/3)
+plot(1:10,dexp(1:10,1/3),type="h")
+1-pexp(4,1/3)+pexp(2,1/3)
+qexp(0.99,1/3)
+
+
