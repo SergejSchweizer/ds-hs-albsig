@@ -1,22 +1,97 @@
-﻿
+﻿# Kombinatorik mit R
+# Sergej Schweizer 26.11.2018
 
-# Variation(mit Reihenfolge) und Zurucklegen (n^^k)
-bowl c(”red”, ”blue”)
-sample(bowl, 10, replace=T)	# sample
-red' 'blu' 'red' 'red' 'blu' 'blu' 'red' 'blu' 'blu' 'red'
+PERMUTATIONEN (alle n elemente)
 
+Ohne Wiederholung (n!)
+Eine Menge mit n Elementen, kann auf n! Arten ageordnet werden
 
-# Kombination(ohne Reihenfolge) und ohne Zurucklegen (n/k)
-choose(5,2)			# anzahl
-combn(0:4,2)			# sample
-0	0	0	0	1	1	1	2	2	3
-1	2	3	4	2	3	4	3	4	4
-
-
-#Variation(mit Reihenfolge) und ohne Zurucklegen
-sample(10,3,replace=F)		# sample
-10 6 9
+library(gtools)
+permutations(3,3,letters[1:3], repeats.allowed=F)
+a	b	c
+a	c	b
+b	a	c
+b	c	a
+c	a	b
+c	b	a
 
 
-Kombination(ohne Reihenfolge) und mit zurücklegen
-choose
+Mit Wiederholung (n!/p!q!r!)
+Wenn je p,q,r Elemente gleich sind, dann sind p!q!r! ihrer n! Anrdnungen gleich
+
+library(gtools)
+permutations(3,3,letters[1:3], repeats.allowed=T)
+a	a	a
+a	a	b
+a	a	c
+a	b	a
+a	b	b
+a	b	c
+a	c	a
+a	c	b
+a	c	c
+b	a	a
+b	a	b
+b	a	c
+b	b	a
+b	b	b
+b	b	c
+b	c	a
+b	c	b
+b	c	c
+c	a	a
+c	a	b
+c	a	c
+c	b	a
+c	b	b
+c	b	c
+c	c	a
+c	c	b
+c	c	c
+
+
+VARIATION 
+(es herscht eine Auswahl vor (unterschied zur Permutation) und EINE Reihenfolge (unterschied zur Kombination))
+
+Mit Reihenfolge und MIT Wiederholungen (n^^k)
+sample(letters[1:3], 3, replace=T)
+'b' 'a' 'a'
+
+Mit Reihenfolge OHNE Wiederholungen (n!/(n-r)!)
+sample(letters[1:3], 3, replace=F)
+'a' 'b' 'c
+
+
+KOMBINATION 
+(es herscht eine Auswahl vor (unterschied zur Permutation) und KEINE Reihenfolge (unterschied zur Variation))
+
+Ohne Reihenfolge und OHNE Wiederholungen bk(n / k)
+combinations(v=letters[1:5],n=5,r=2,repeats.allowed=F)
+a	b
+a	c
+a	d
+a	e
+b	c
+b	d
+b	e
+c	d
+c	e
+d	e
+
+Ohne Reihenfolge und MIT Wiederholungen bk(n+r-1 / r)
+combinations(v=letters[1:5],n=5,r=2,repeats.allowed=T)
+a	a
+a	b
+a	c
+a	d
+a	e
+b	b
+b	c
+b	d
+b	e
+c	c
+c	d
+c	e
+d	d
+d	e
+e	e
