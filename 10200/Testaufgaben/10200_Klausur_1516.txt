@@ -69,6 +69,237 @@ median(x)
 #quantile(x,0.25), quantile(x,0.75)
 
 #6
+df <- discoveries
+min(time(df))
+max(time(df))
+l <- length(df)
+e <- (replicate(1000,sapply(sample(df,l,replace=T),mean))) #bootstrap, alle mit replace=T
+q <- quantile(e,c(0.05,0.95))
+hist(e,breaks=12,prob=T)
+lines(density(e,bw=1),lwd=2,lty=1)
+abline(v=q,col="red")
+text(q+.5,c(0.25,0.25),labels=c("1.Q.","3.Q."),col="red")
+# In 90% der Fälle liegt die berechnete Stichprobenkennzahl im Bereich, Beinhaltet mit einer Wahrscheinlichkeit von 90 % die Stichprobenkennzahl.
+
+#7
+#c
+s <- seq(0,12,length=100)
+hist(e,breaks=12,prob=T)
+lines(density(e,bw=1),lwd=2,lty=1)
+par(new=T)
+plot(0:12,dpois(0:12,mean(discoveries)),type="l",col="red")
+par(new=T)
+# ??? was ist hier n und p ?
+plot(0:12,dbinom(0:12,3,.5),type="l",col="green")
+par(new=T)
+plot(s,dnorm(s,mean(discoveries),sd(discoveries)),type="l",col="blue")
+#e ???? sehr kleine Werte
+s <- seq(2,4,length=100)
+a <- function(x) {
+    wert <- dpois(discoveries[1],lambda=x)
+    for (i in 2:length(discoveries)) {
+        wert <- wert * dpois(discoveries[i],lambda=x)
+                                    } 
+    return(wert) }
+plot(s,a(s),type="l")
+#f
+gooda <- s[a(s)/max(a(s))>1/8]
+min(gooda)
+max(gooda)
+
+#8
+head(mtcars)
+model <- lm (mpg~hp,data=mtcars)
+# Ein Response Y wird linear durch ein Modell Y = X*B + E mit dem Predictor X, 
+# dem Signal X*B mit der und dem statistischen Fehler E angenähert
+# Im 2D-Fall wird y linear mit der Geraden mit Steigung beta_1 und dem intercept beta:0 angenähert y=beta_1*x+beta_0.
+plot(mtcars$hp,mtcars$mpg)
+par(new=T)
+abline(coef(model))
+abline(model)
+#Betrachtung der Residuen y_dach (angenähert) - y (laut Datensatz, "echt") ohne erkennbares Muster
+plot(fitted(model),resid(model))
+summary.lm(model)
+
+---------------------------------------
+Klausurvorbereitung 17/18
+
+#1
+choose(10+5-1,5)
+gummi1 <- function(k=5,n=10){
+    wert <- table(sample(1:k,n,replace=T))
+    return (wert)}
+mean(replicate(10000,any(gummi1(5,10)==3)))
+mean(replicate(10000,any(length(gummi1(5,10))<5)))
+
+#2
+wurf10 <- function() sample(1:6,10,replace=T)
+wuerfe <- replicate(100000,wurf10())
+A <- apply(wuerfe,2,function(x)sum(x==1)==3)
+B <- apply(wuerfe,2,function(x)sum(x==2)==2)
+sum(A&B)/10000
+           
+wurf10_gezinkt <- function() {
+    s <- sample(1:7,10,replace=T)
+    s[s==7]<-1
+    return(s)}
+wuerfe <- replicate(100000,wurf10_gezinkt())
+A <- apply(wuerfe,2,function(x)sum(x==1)==3)
+B <- apply(wuerfe,2,function(x)sum(x==2)==2)
+sum(A&B)/10000
+
+#3
+wurf <- function() {
+wurf <- function() {
+    w1 <- sample(1:6,1)
+    erg <- -4
+    if (w1==6) { erg <- 20 }
+    else if (w1==1) {
+        w2 <- sample(1:6,1)
+        if (w2 %in% c(1,6)){ erg <- 100 }
+        else {erg <- -30}
+    }
+    return(erg)
+}
+mean(replicate(10000,wurf())==20)
+1/6
+mean(replicate(10000,wurf())>=20)
+1/6+1/6*1/3
+
+# X: {1,2,3,4,5,6}^2 -> {20,100,30,-4}
+mean(replicate(100000,wurf()))
+
+sd(replicate(100000,wurf()))
+# SD=Wurzel(Summe(X-mu)^2/n-1) da Stichprobe
+
+#4
+#R-Code
+Auswahl=function() sample(c(rep("A",90),rep("B",10)),10,replace=F)
+1-mean(replicate(10000,any(Auswahl()=="B")))
+mean(replicate(10000,any(Auswahl()=="B")))
+#rechnen
+90*89*88*87*86*85*84*83*82*81/(100*99*98*97*96*95*94*93*92*91)
+1-90*89*88*87*86*85*84*83*82*81/(100*99*98*97*96*95*94*93*92*91)
+
+#5
+# (2/4)^10
+# (10 über 2)*3^8 / 4^10
+# (10 über 2)*3^8 / 4^10 *2
+# (10 über 2)*/8 über 2) 2^6 / 4^10
+# 1 – (3/4) ^ 2
+# 4! / 4^4
+# (3/4)^10
+
+#6
+#6(e35(s25(f15(b10(c8(d7)))))
+#e0,s10,f110,b1110,c11110,d11111
+#durchschnittlich: 2.45
+0.35*1+0.25*2+0.15*3+0.1*4+0.08*5+0.07*5
+
+# R-Code? s.o?
+# bei gleicher P(X=x), dynamisch,...
+
+#7
+hist(rpois(100,10))
+plot(1:20,dpois(1:20,10),type="h")
+var1 <- rnorm(10000,5,10)
+mean(var1>10 & var1<20)
+var2 <- rbinom(10000,10,.1)
+mean(var2>=3 & var2<=6)
+
+#8
+plot(rexp(100,1/3),type="h")
+plot(1:10,dpois(1:10,1/3),type="h")
+ppois(1,1/3)
+plot(1:10,dexp(1:10,1/3),type="h")
+1-pexp(4,1/3)+pexp(2,1/3)
+qexp(0.99,1/3)
+
+#9
+df <- mdeaths
+mdeaths
+#v1 <- as.vector(matrix(df,  ncol=1));length(v1)
+#l
+hist(df,prob=T,breaks=10)
+lines(density(df))
+s<-seq(800,3000,length=100)
+s1<-800:3000
+lines(s,dnorm(s,mean(df),sd(df)),lwd=3,col="green")
+lines(s,dexp(s,1/mean(df)),lwd=3,col="red")
+lines(s1,dpois(s1,mean(df)),lwd=3,col="blue")
+
+#'???????????????????' Parameter?
+lines(s,dbinom(s,6*12*mean(df),0.5),lwd=3,col="brown")
+
+#c
+h <-hist(df,prob=T,breaks=20)
+breaks <-(h$breaks)
+err <-numeric()
+err[1] <- sum((dnorm(breaks,mean(df),sd(df))-h$density)**2)
+err[2] <- sum((dexp(breaks,1/mean(df))-h$density)**2)
+err[3] <- sum((dpois(breaks,mean(df))-h$density)**2)
+err[4] <- sum((dbinom(breaks,6*12*mean(df),0.5)-h$density)**2) #?
+names(err)<-c("N","E","P","B")
+err[order(abs(err),decreasing=T)]
+
+err[1] <- median(abs(dnorm(breaks,mean(df),sd(df))-h$density))
+err[2] <- median(abs(dexp(breaks,1/mean(df))-h$density))
+err[3] <- median(abs(dpois(breaks,mean(df))-h$density))
+err[4] <- median(abs(dbinom(breaks,6*12*mean(df),0.5)-h$density)) #?
+names(err)<-c("N","E","P","B")
+sort(err)
+
+#10
+#10
+df <-mdeaths
+str(df)
+mean(df)
+median(df)
+summary(df)
+sd(df)
+var(df)
+
+#hist(df)
+df_m <- t(matrix(df,nrow=12)) #sonst Befüllung columns zuerst
+#plot(apply(df_m,2,mean),type="h")
+
+paste("  ----------- ")
+mw <- (replicate(1000,mean(sample(mdeaths,length(mdeaths),replace=T))))
+mean(mw)
+quantile(mw,c(0.025,0.975))
+
+mean(replicate(1000,var(sample(mdeaths,length(mdeaths),replace=T))))
+mean(replicate(1000,median(sample(mdeaths,length(mdeaths),replace=T))))
+mean(replicate(1000,mad(sample(mdeaths,length(mdeaths),replace=T))))
+
+
+s <- seq(1490,1510,length=100)          # wird zu klein durch Ausmultiplizieren!!!
+a <- function(x) {
+    wert <- dpois(df[1],lambda=x)
+    for (i in 2:length(df)) {
+        wert <- wert * dpois(df[i],lambda=x)
+                                    } 
+    return(wert) }
+max(a(s))
+plot(s,a(s),type="l")
+
+#11
+df <- data.frame(UCBAdmissions)
+df1 <- df[df$Dept=="A",]
+
+FM <- data.frame(F=c(89,19+89), M=c(512,313+512), row.names=c("adm","total")) 
+diffrate1=(FM[1,]/FM[2,])["F"]-(FM[1,]/FM[2,])["M"]
+diffrate1
+
+FM
+FM_split <- c(replicate(108,"F"),replicate(825,"M"))
+all <- c(replicate(89+512,TRUE),replicate((108+825-89-512),FALSE))
+s <- replicate(1000,(sapply(split(sample(all),FM_split),sum)))
+s <- t(s)
+mean(s[,1])
+mean(s[,2])
+quantile(s[,1],c(0.05,0.95))
+#p-Test Werte "mindestens so extrem"
 
 
 
