@@ -3,3 +3,119 @@ any suggestions / corrections welcome
 -----------------------------------------
 
 #1
+muenz4 <- function () {
+    seiten <- c("K","Z")
+    sample(seiten,4,replace=T)
+}
+muenz4_10 <- function() {
+    s <- replicate(10,muenz4()=="K")
+    return(sum(apply(s,2,sum)==3))
+}
+E <- mean(replicate(1000,muenz4_10()))
+Var <- var(replicate(1000,muenz4_10()))
+E_true <- 10 * factorial(4)/(factorial(3)*factorial(1)) * (1/2)**4
+
+#2
+#2 fix, Anordnungen (10 über 2) , Restliche 8 Stellen 5 Kombinationen
+factorial(10)/(factorial(8)*factorial(2))*5**8 / 7**10
+factorial(10)/(factorial(7)*factorial(3)) * 
+factorial(7)/(factorial(5)*factorial(2)) *
+factorial(5)/(factorial(4)*factorial(1)) *
+factorial(4)/(factorial(1)*factorial(3)) * 3/ 7**10
+1/7**2 
+2/7**2
+
+#3
+liste <- c("T","U","V","W","X","Y","Z")
+n<-1000000
+erg <- replicate(10,(sample(liste,10,replace=T)))
+#erga <- sum(apply(replicate(n,(sample(liste,10,replace=T))),2,function (x) all((x=="Z")|(x=="Y"))))/n
+#erga
+#ergb <- sum(apply(replicate(n,(sample(liste,10,replace=T))),2,function (x) (sum(x=="T")==3&sum(x=="U")==2&
+#                                                                            sum(x=="V")==1&sum(x=="W")==3)))/n
+ergc <- sum(apply(replicate(n,(sample(liste,10,replace=T))),2,function (x) (x[1]=="T"&x[10]=="U")))/n
+ergc
+
+#4
+#sd...Wurzel Summe Abweichungsquadrate Einzelwerte vom Mittelwert
+#mad ... Medianwert der Abweichungsbeträge vom Median, für Interpretation robuster gegenüber Ausreißern 
+#mean .. Mittelwert, am häufigsten verwendet, sinnvoll bei Verwendung von stat. Verteilungen, mathematisch robuster
+v <- c(1,2,3,4,5,6,7,8,9)
+mu <- mean(v)
+mw <- sum(v)/length(v)
+sort(abs(v-median(v)),decreasing=F)
+mad1 <- median(abs(v-median(v)))
+mad1
+mad(v)
+sd(v) #n-1
+sqrt(sum((v-mean(v))**2)/(length(v)))
+#Scherzfrage
+
+#5
+#Poisson - Zeitreihen, Ausfallrate, Zerfallsprozess, kleine P, großes n, Kunden am Schalter
+#Binomial - Erfolgsereignis ja/nein bei ziehen von k aus n - Stichproben, defekte Stücke
+#Normal-Verteilung - Standard-Näherung großer Anzahl an Wiederholungen, Summe von Zufallsvariablen strebt auf N zu, Standardisierung .
+#Messfehler, stetige Standardisierung Binomial
+#Exponential-Verteilung - Dauern zwischen Ereignissen, radioaktiver Zerfall, stetiges Gegenstück Poisson
+
+#6
+w <- ChickWeight$weight
+mean(w)
+var(w) # Maß für die Streuung der Zufallsvariable, mittlere quadratische Abweichung vom Erwartungswert
+s <- replicate(10000,sample(w,length(w),replace=T))
+quantile(s,c(0.025,0.975))
+
+#7
+s <- rpois(100,20)
+hist(s,prob=T,breaks=10,main="Verteilung & Poisson")
+lines(density(s,bw="SJ"))
+par(new=T)
+lines(10:30,dpois(10:30,20),lwd=3,col="red")
+
+plot(10:30,ppois(10:30,20),type="l",lwd=2,col="blue",lty=1,xlab="Wert",ylab="Wahrscheinlichkeit",main="Vert.")
+p <- rexp(1000,2)
+hist(p,prob=T)
+ps<-seq(0,3,length.out=100)
+lines(ps,dexp(ps),lwd=3,col="red")
+pexp(12,.1)-pexp(8,.1)
+
+#8
+#Poisson Verteilung / Ausfallraten diskret
+#likelihood
+el<-seq(1,10000,length=1000)
+s<-dpois(134,el)*dpois(198,el)*dpois(458,el)*dpois(743,el)*dpois(971,el)
+plot(el,s/max(s),type="l")
+which.max(s)
+ppois(100,501) # wie zu berechnen? zu komplex für Klausur...
+#Integral 0..100 500^100/100!*e^-500
+
+s1 <- function(el) { return(dexp(134,1/el)*dexp(198,1/el)*dexp(458,1/el)*dexp(743,1/el)*dexp(971,1/el)) }
+plot(el,s1(el)/max(s1(el)),type="l")
+#P(x<=X) = 1-e⁻500*100
+#Lesbarkeit, finden und Darstellen Maximum
+goodel <- el[(s1(el)/max(s1(el)))>0.2]
+min(goodel)
+max(goodel)
+
+#9
+model <- lm(Petal.Length~Petal.Width,data=iris)
+coef(model)
+df <- data.frame(iris)
+plot(x=df$Petal.Width,y=df$Petal.Length,lwd=3)
+abline(coef(model))
+#Konfidenzintervall - Wahrscheinlichkeit dass wahrer Wert der Zufallsvariable darin bei 95%
+confint(model,level=.95)
+#Residuals - Abstände zwischen modellierten und observierten Werten
+#t-value wie viele sd ist Koeffizient von 0 entfernt, mehr=besseres Modell, Hypothese besser abgelehnt
+#negativ, Wert unter Hypothese
+#r2 Varianz die das Modell erklärt zur Gesamtvarianz 
+plot(resid(model),fitted(model))
+
+#10
+#Huffmann Code
+v<-c(0,10,110,1110,11110,11111)
+names(v)<-c("beta","gamma","tau","alpha","omega")
+v
+#E=Summe(bits_Zeichen*P(Zeichen))
+entro <- 1*0.3+2*0.25+3*0.2+4*0.15+5*(0.05+0.05)
+entro*10
