@@ -1,4 +1,4 @@
-1. discrete distributions
+1. DISCRETE DISTRIBUTIONS
 
 1.1 Binominal
     - counts amount of successes
@@ -66,7 +66,7 @@
 
 
 
-2. Continious
+2. CONTINOOUS DISTRIBUTIONS
 
 2.1 Normal
     dnorm(x,mu,sigma)
