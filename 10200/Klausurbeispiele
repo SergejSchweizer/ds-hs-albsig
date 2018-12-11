@@ -58,6 +58,21 @@ durchschnitt=(0.25*2+0.1*3+0.08*4+0.07*4+0.35*2+0.15*2)*10
 durchschnitt # Wahrscheinlichkeiten der Buchstaben * Länge in Bit * 10 Buchstaben je Wort
 # Beispiel gleiche Wahrscheinlichkeiten, oder Wurzel und Zwischenwert gleich, Anordnung Wurzeln
 #7
+a<-rpois(100,10)
+hist(a,main="histo",prob=T,xlim=c(0,20))
+lines(density(a,bw="SJ"))
+s<-1:20
+par(new=T)
+plot(s,dpois(s,10),lwd=3,type="l",col="red",xlim=c(0,20))
+
+
+
+#8
+
+
+
+#9
+
 
 
 
