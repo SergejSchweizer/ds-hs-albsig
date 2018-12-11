@@ -68,9 +68,13 @@ plot(s,dpois(s,10),lwd=3,type="l",col="red",xlim=c(0,20))
 pnorm(20,5,10)-pnorm(10,5,10)
 pbinom(6,10,0.1)-pnorm(3,10,.1)
 #8
-
-
-
+hist(rexp(100,1/3),main="Exp",breaks=20,prob=T,xlim=c(0,25),ylim=c(0,0.35))
+par(new=T)
+s<-seq(0,25,length=100)
+plot(s,dexp(s,1/3),type="l",xlim=c(0,25),ylab="",ylim=c(0,0.35)) #poiss wird Fehler sein
+pexp(1,1/3)
+1-(pexp(4,1/3)-pexp(2,1/3))
+qexp(0.01,1/3)
 #9
 
 
