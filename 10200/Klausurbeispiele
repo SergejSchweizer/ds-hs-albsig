@@ -64,9 +64,9 @@ lines(density(a,bw="SJ"))
 s<-1:20
 par(new=T)
 plot(s,dpois(s,10),lwd=3,type="l",col="red",xlim=c(0,20))
-
-
-
+plot(s,dpois(s,10),lwd=3,type="l",col="red",xlim=c(0,20))
+pnorm(20,5,10)-pnorm(10,5,10)
+pbinom(6,10,0.1)-pnorm(3,10,.1)
 #8
 
 
