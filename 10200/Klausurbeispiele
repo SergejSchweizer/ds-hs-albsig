@@ -76,6 +76,23 @@ pexp(1,1/3)
 1-(pexp(4,1/3)-pexp(2,1/3))
 qexp(0.01,1/3)
 #9
+hist(mdeaths,prob=T,xlim=c(0,4000),breaks=50,ylim=c(0,0.002))
+length(mdeaths)
+m<-mean(mdeaths)
+sd1<-sd(mdeaths)
+s<-seq(0,4000,length=4001)
+par(new=T)
+plot(s,dnorm(s,m,sd1),lwd=3,type="l",col="green",ylim=c(0,0.002))
+par(new=T)
+plot(s,dexp(s,1/m),lwd=3,type="l",col="red",ylim=c(0,0.002))
+par(new=T)
+plot(s,dpois(s,m),lwd=3,type="l",col="blue",ylim=c(0,0.002))
+par(new=T)
+#plot(s,dbinom(s,m/72,.5),lwd=3,type="l",col="brown",ylim=c(0,0.002)) #?????? woher sd und m?
+
+#10
+
+
 
 
 
