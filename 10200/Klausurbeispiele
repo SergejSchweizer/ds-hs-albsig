@@ -188,7 +188,22 @@ t.test(len~factor(dose),data=df1)
 #permutation...
 
 #13
+#13
+#poisson, Rate, begrenzter Raum
+lambda<-mean(c(18,20,29))
 
+lambda1<-c(18,20,29)
+i<-seq(1,40,length=100)
+s<-rpois(10000,lambda)
+hist(s,breaks=50,main="Werte",xlim=c(0,50))
+mean(s>40)
+        
+ell<-function(y) apply(sapply(lambda1,function(x)dpois(x,y)),1,prod)
+                              
+plot(i,ell(i)/max(ell(i)),type="l")
+goodell<-i[ell(i)/max(ell(i))>1/16]
+min(goodell)
+max(goodell)    
 
 
 
