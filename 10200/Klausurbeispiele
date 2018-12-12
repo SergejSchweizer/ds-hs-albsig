@@ -91,6 +91,38 @@ par(new=T)
 #plot(s,dbinom(s,m/72,.5),lwd=3,type="l",col="brown",ylim=c(0,0.002)) #?????? woher sd und m?
 
 #10
+#10
+summary((mdeaths))
+#plot(mdeaths)
+#abline(h=mean(mdeaths))
+#df1<-data.frame(time(mdeaths),mdeaths)
+#head(df1)
+#model1=lm(mdeaths~time.mdeaths.,df1)
+#abline(coef(model1),col="red")
+#df<-(predict(model1,interval="confidence"))
+#head(df)
+
+#boot<-replicate(10000,mean(sample(mdeaths,length(mdeaths),replace=T)))
+#hist(boot)
+#abline(v=mean(mdeaths))
+#quantile(boot,c(0.025,0.975))
+#boot<-replicate(10000,var(sample(mdeaths,length(mdeaths),replace=T)))
+#hist(boot)
+#abline(v=var(mdeaths))
+#quantile(boot,c(0.025,0.975))
+#boot<-replicate(10000,mad(sample(mdeaths,length(mdeaths),replace=T)))
+#hist(boot)
+#abline(v=mad(mdeaths))
+#quantile(boot,c(0.025,0.975))
+
+s<-seq(1400,1600,length=1000000)
+head(mdeaths)
+ell <- function(y) apply(sapply(mdeaths,function(x)dpois(x,y)),1,prod)
+#ell(s)
+max(ell(s))
+#plot(s,ell(s)/max(ell(s)),type="l",lwd=3,col="black",ylim=c(0,1))
+
+#11
 
 
 
