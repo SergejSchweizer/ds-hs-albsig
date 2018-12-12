@@ -161,6 +161,34 @@ delta2<-((data[2,]-data[1,]))
 mean(delta2>delta)
 
 #12
+head(ToothGrowth,5)
+df<-ToothGrowth
+boxplot(len~dose,df,main="plot")
+
+#library(ggplot2)
+#ggplot(data=ToothGrowth,mapping=aes(x=as.factor(dose),y=len))+geom_violin(trim=F)
+
+#Kennzahl z.B.mean(2-0.5)
+sel<-df$dose %in% c(1,2)
+df1<-df[sel,]
+#tapply(df1$len,as.factor(df1$dose),mean)
+df0<-aggregate(len~dose,df1,mean)
+df0
+delta0=df0[2,2]-df0[1,2]
+delta0
+
+all<-df1$len
+splitter<-as.factor(df1$dose)
+s<-replicate(10000,(sapply(split(sample(all),splitter),mean)))
+s
+((s[2,]-s[1,])<s)
+boxplot(len~dose+supp,df)
+t.test(len~factor(dose),data=df1)
+
+#permutation...
+
+#13
+
 
 
 
