@@ -141,6 +141,26 @@ delta2<-((data[2,]-data[1,]))
 delta2
 mean(delta2>delta)
 
+#11
+#11
+#str(UCBAdmissions)
+df<-data.frame(UCBAdmissions)
+df1<-df[df$Dept=="A",]
+df1
+#Alternativhypothese-> Unterschiede
+anzf=(df1$Freq[3]-df1$Freq[4]) #/df1$Freq[3]
+anzm=(df1$Freq[1]-df1$Freq[2]) #/df1$Freq[1]
+delta=anzm-anzf
+delta
+all1<-c(replicate(512-313+89-19,T),replicate(313+19,F))
+splitter<-c(replicate(512,"M"),replicate(89,"F"))
+data<-(replicate(100000,sapply(split(sample(all1),splitter),sum)))
+#data
+delta2<-((data[2,]-data[1,])) 
+#delta2
+mean(delta2>delta)
+
+#12
 
 
 
